@@ -25,8 +25,5 @@
 - **AI/ML**: [ml5.js](https://ml5js.org/) (ImageClassifier)
 - **Model**: Google Teachable Machine
 
-## 📸 Screenshots
-*(Add your screenshots here)*
-
 ---
 *Built for Sustainable Development Goals (SDG) 12, 13 & 14.*
