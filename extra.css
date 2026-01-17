@@ -1,0 +1,729 @@
+/* Global Impact Actions */
+.global-actions {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 1rem;
+}
+
+.impact-btn {
+    flex: 1;
+    background: rgba(0, 242, 255, 0.1);
+    border: 1px solid var(--neon-blue);
+    color: #fff;
+    padding: 0.75rem 0.5rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.25rem;
+}
+
+/* KARMA BALLOON ANIMATIONS */
+.balloon-container {
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 1rem 0;
+    overflow: visible;
+}
+
+#karma-balloon {
+    font-size: 2rem;
+    transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    filter: drop-shadow(0 5px 5px rgba(0, 0, 0, 0.3));
+    animation: balloon-float 3s ease-in-out infinite;
+}
+
+@keyframes balloon-float {
+
+    0%,
+    100% {
+        transform: translateY(0) rotate(0deg);
+    }
+
+    50% {
+        transform: translateY(-10px) rotate(5deg);
+    }
+}
+
+#karma-balloon.pop-anim {
+    animation: balloon-pop 0.3s ease-out;
+}
+
+@keyframes balloon-pop {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.4);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+.impact-btn:hover {
+    background: var(--neon-blue);
+    color: #000;
+    box-shadow: 0 0 15px rgba(0, 242, 255, 0.3);
+    transform: translateY(-2px);
+}
+
+/* SPA Navigation */
+nav#main-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: rgba(10, 11, 16, 0.95);
+    border-top: 1px solid var(--neon-blue);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 2rem;
+    z-index: 900;
+    backdrop-filter: blur(10px);
+}
+
+.nav-brand {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 800;
+    color: var(--neon-blue);
+    letter-spacing: 2px;
+}
+
+.nav-links {
+    display: flex;
+    gap: 1rem;
+}
+
+.nav-btn {
+    background: transparent;
+    border: 1px solid transparent;
+    color: var(--text-dim);
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    font-family: 'Outfit', sans-serif;
+    font-weight: 600;
+    transition: all 0.3s;
+    border-radius: 4px;
+}
+
+.nav-btn.active,
+.nav-btn:hover {
+    color: #fff;
+    background: rgba(0, 242, 255, 0.1);
+    border-color: var(--neon-blue);
+    box-shadow: 0 0 10px rgba(0, 242, 255, 0.1);
+}
+
+/* Section Logic */
+.page-section {
+    width: 100%;
+    height: 100vh;
+    padding: 1rem;
+    padding-bottom: 80px;
+    /* Space for nav */
+    overflow-y: auto;
+    opacity: 1;
+    transition: opacity 0.3s ease;
+    display: block;
+}
+
+.hidden-section {
+    display: none;
+    opacity: 0;
+    pointer-events: none;
+}
+
+#karma-balloon {
+    font-size: 3rem;
+    transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    filter: drop-shadow(0 10px 10px rgba(0, 0, 0, 0.5));
+    animation: balloon-float 3s ease-in-out infinite;
+    /* 3D Effect Attempt with radial gradient overlay not possible on emoji, using drop-shadow mostly */
+}
+
+/* OCEAN BUBBLES */
+.bubble {
+    position: absolute;
+    bottom: -10px;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    animation: rise 5s infinite ease-in;
+}
+
+@keyframes rise {
+    0% {
+        transform: translateY(0);
+        opacity: 0;
+    }
+
+    50% {
+        opacity: 0.8;
+    }
+
+    100% {
+        transform: translateY(-300px);
+        opacity: 0;
+    }
+}
+
+/* OCEAN & FISH ANIMATIONS */
+#digital-reef {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(to bottom, #003366, #001e36);
+    /* Lighter blue so it's visible */
+    transition: background 1s;
+    border: 1px solid var(--neon-blue);
+    /* Add border to define area */
+}
+
+#digital-reef.clean {
+    background: linear-gradient(to bottom, #00f2ff, #0044ff);
+}
+
+.fish-anim {
+    position: absolute;
+    font-size: 1.5rem;
+    animation: swim 10s linear infinite;
+    opacity: 0.8;
+}
+
+@keyframes swim {
+    from {
+        transform: translateX(-50px);
+    }
+
+    to {
+        transform: translateX(300px);
+    }
+}
+
+/* PURITY BONUS ALERT */
+#purity-alert {
+    position: absolute;
+    top: 20%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 40, 255, 0.9);
+    border: 2px solid #fff;
+    color: #fff;
+    padding: 1rem;
+    border-radius: 12px;
+    z-index: 2000;
+    text-align: center;
+    box-shadow: 0 0 20px #00f2ff;
+    animation: bounceIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    pointer-events: none;
+}
+
+@keyframes bounceIn {
+    0% {
+        transform: translateX(-50%) scale(0.3);
+        opacity: 0;
+    }
+
+    50% {
+        transform: translateX(-50%) scale(1.05);
+        opacity: 1;
+    }
+
+    70% {
+        transform: translateX(-50%) scale(0.9);
+    }
+
+    100% {
+        transform: translateX(-50%) scale(1);
+    }
+}
+
+/* OVERRIDES FOR FULLSCREEN SPA */
+#app-container {
+    display: block !important;
+    grid-template-columns: none !important;
+    height: 100vh;
+    overflow: hidden;
+    position: relative;
+    filter: none;
+    /* remove blur by default if applied */
+}
+
+#app-container.blurred {
+    filter: blur(5px);
+}
+
+
+/* Page Specifics */
+#page-dashboard .dashboard-layout {
+    max-width: 800px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+#page-workout #ai-brain {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+#page-profile .profile-layout {
+    max-width: 600px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    padding-top: 2rem;
+}
+
+.user-profile.large {
+    background: transparent;
+    border: none;
+    flex-direction: column;
+    align-items: center;
+}
+
+.avatar-ring.large {
+    width: 100px;
+    height: 100px;
+    border-width: 4px;
+    font-size: 3rem;
+    box-shadow: 0 0 30px var(--neon-green);
+}
+
+.container-center {
+    justify-content: center;
+}
+
+.stats-row,
+.visuals-row {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.stats-row>div,
+.visuals-row>div {
+    flex: 1;
+    min-width: 250px;
+}
+
+/* Avatar Selection */
+.avatar-selector {
+    margin-top: 1rem;
+}
+
+.avatar-selector label {
+    font-size: 0.65rem;
+    font-weight: 600;
+    color: var(--text-dim);
+    letter-spacing: 1px;
+    margin-bottom: 0.5rem;
+    display: block;
+}
+
+.avatar-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.5rem;
+    max-width: 400px;
+    /* Constrain width so they don't get huge */
+    margin: 0 auto;
+    /* Center the grid */
+}
+
+.avatar-option {
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid var(--glass-border);
+    border-radius: 8px;
+    padding: 0.5rem;
+    cursor: pointer;
+    font-size: 1.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.2s;
+    aspect-ratio: 1;
+}
+
+.avatar-option:hover {
+    border-color: var(--neon-blue);
+    background: rgba(0, 242, 255, 0.1);
+}
+
+.avatar-option img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+/* Profile Avatar Override */
+.avatar-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.avatar-img.hidden {
+    display: none;
+}
+
+/* Holographic Badges Replacement */
+#badge-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.badge-holo {
+    width: 80px;
+    height: 100px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(0, 242, 255, 0.2);
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    backdrop-filter: blur(5px);
+}
+
+.badge-holo .badge-icon {
+    font-size: 2rem;
+    filter: grayscale(1) opacity(0.3);
+    transition: all 0.5s;
+}
+
+.badge-holo .badge-label {
+    font-size: 0.5rem;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    margin-top: 5px;
+    text-align: center;
+    font-weight: 700;
+}
+
+.badge-holo.unlocked {
+    background: rgba(0, 242, 255, 0.05);
+    border-color: var(--neon-blue);
+    box-shadow: 0 0 15px rgba(0, 242, 255, 0.1),
+        inset 0 0 10px rgba(0, 242, 255, 0.05);
+}
+
+.badge-holo.unlocked .badge-icon {
+    filter: grayscale(0) drop-shadow(0 0 8px var(--neon-blue));
+    transform: scale(1.1);
+}
+
+.badge-holo.unlocked .badge-label {
+    color: #fff;
+    text-shadow: 0 0 5px var(--neon-blue);
+}
+
+/* Unlock Flare Animation */
+.badge-holo.unlocked::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(45deg,
+            transparent,
+            rgba(0, 242, 255, 0.1),
+            transparent);
+    transform: rotate(45deg);
+    animation: holo-shine 3s infinite;
+}
+
+@keyframes holo-shine {
+    0% {
+        transform: translateX(-100%) rotate(45deg);
+    }
+
+    100% {
+        transform: translateX(100%) rotate(45deg);
+    }
+}
+
+.badge-holo:hover {
+    transform: translateY(-5px) scale(1.05);
+    border-color: var(--neon-blue);
+    box-shadow: 0 0 20px rgba(0, 242, 255, 0.2);
+}
+
+.badge-holo.locked::before {
+    content: '🔒';
+    position: absolute;
+    font-size: 0.8rem;
+    top: 5px;
+    right: 5px;
+    opacity: 0.5;
+}
+
+
+/* Carbon Drain Visuals */
+#smog-tank {
+    width: 100%;
+    height: 100px;
+    background: #222;
+    border-radius: 8px;
+    position: relative;
+    overflow: hidden;
+    margin-top: 0.5rem;
+    border: 1px solid var(--glass-border);
+}
+
+#smog-level {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, #444, #111);
+    transition: height 0.5s ease-out;
+    opacity: 0.8;
+}
+
+#forest-growth {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 0%;
+    /* Grows with karma */
+    background: linear-gradient(to top, #0f0, #004d00);
+    transition: height 0.5s ease-out;
+    box-shadow: 0 0 20px #0f0;
+    z-index: 2;
+}
+
+#forest-growth::after {
+    content: '🌳🌲🌿';
+    position: absolute;
+    top: -20px;
+    font-size: 1.2rem;
+    width: 100%;
+    text-align: center;
+    filter: drop-shadow(0 0 5px #0f0);
+}
+
+/* Shield Pulse (Charging) */
+.shield-charging #shield-fill-path {
+    animation: shield-pulse 1s infinite alternate;
+}
+
+@keyframes shield-pulse {
+    from {
+        filter: drop-shadow(0 0 5px var(--neon-blue));
+    }
+
+    to {
+        filter: drop-shadow(0 0 15px var(--neon-blue));
+    }
+}
+
+/* Scanner Reticle */
+.scanner-reticle {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 300px;
+    height: 300px;
+    pointer-events: none;
+    z-index: 100;
+}
+
+.reticle-corner {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    border: 3px solid var(--neon-blue);
+    filter: drop-shadow(0 0 8px var(--neon-blue));
+}
+
+.reticle-corner.tl {
+    top: 0;
+    left: 0;
+    border-right: none;
+    border-bottom: none;
+}
+
+.reticle-corner.tr {
+    top: 0;
+    right: 0;
+    border-left: none;
+    border-bottom: none;
+}
+
+.reticle-corner.bl {
+    bottom: 0;
+    left: 0;
+    border-right: none;
+    border-top: none;
+}
+
+.reticle-corner.br {
+    bottom: 0;
+    right: 0;
+    border-left: none;
+    border-top: none;
+}
+
+.reticle-label {
+    position: absolute;
+    bottom: -30px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+    color: var(--neon-blue);
+    text-shadow: 0 0 10px var(--neon-blue);
+}
+
+/* Classification Result Panel */
+#classification-result {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: rgba(0, 0, 0, 0.8);
+    border: 2px solid var(--neon-blue);
+    border-radius: 10px;
+    padding: 1rem;
+    min-width: 280px;
+    backdrop-filter: blur(10px);
+    animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(100px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+#classification-result.hidden {
+    display: none;
+}
+
+.result-icon {
+    font-size: 3rem;
+    text-align: center;
+    margin-bottom: 0.5rem;
+}
+
+.result-text {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.2rem;
+    font-weight: 700;
+    text-align: center;
+    color: #fff;
+    margin-bottom: 0.5rem;
+}
+
+.result-impact {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    text-align: center;
+    color: var(--text-dim);
+}
+
+/* Karma Display */
+#karma-display {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background: rgba(0, 242, 255, 0.1);
+    border: 1px solid var(--neon-blue);
+    border-radius: 8px;
+    padding: 0.75rem 1.5rem;
+    backdrop-filter: blur(5px);
+}
+
+#karma-display label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.6rem;
+    color: var(--text-dim);
+    display: block;
+    margin-bottom: 0.25rem;
+}
+
+#karma-value {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: var(--neon-blue);
+    text-shadow: 0 0 10px var(--neon-blue);
+}
+
+/* Scanner Status Bar */
+#scanner-status {
+    display: flex;
+    justify-content: space-around;
+    padding: 1rem;
+    background: rgba(0, 0, 0, 0.4);
+    border-top: 1px solid var(--glass-border);
+}
+
+/* CAMERA TOGGLE BUTTON */
+/* Using high specificity and !important to force visibility */
+#ui-overlay #model-config+#camera-toggle.scanner-control,
+button#camera-toggle.scanner-control {
+    margin-top: 15px;
+    background: rgba(255, 0, 0, 0.3) !important;
+    border: 1px solid var(--neon-red) !important;
+    color: #fff !important;
+    width: 100%;
+    padding: 12px !important;
+    font-family: 'JetBrains Mono', monospace !important;
+    cursor: pointer;
+    transition: all 0.3s;
+    text-align: center;
+    font-size: 1rem !important;
+    font-weight: 700 !important;
+    display: block !important;
+    border-radius: 6px !important;
+    text-shadow: 0 0 5px var(--neon-red);
+}
+
+button#camera-toggle.scanner-control:hover {
+    background: var(--neon-red) !important;
+    box-shadow: 0 0 20px var(--neon-red) !important;
+    text-shadow: none;
+}
+
+button#camera-toggle.active-state {
+    background: rgba(0, 242, 255, 0.2) !important;
+    border-color: var(--neon-blue) !important;
+    color: #fff !important;
+    text-shadow: 0 0 5px var(--neon-blue);
+}
+
+button#camera-toggle.active-state:hover {
+    background: var(--neon-blue) !important;
+    box-shadow: 0 0 20px var(--neon-blue) !important;
+}

@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eco-Scanner Waste Auditor | SDG 12, 13 & 14</title>
+    <meta name="description"
+        content="AI-powered waste auditor that prevents recycling contamination and promotes responsible consumption.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=JetBrains+Mono:wght@400;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="extra.css">
+    <!-- p5.js, tfjs, and ml5.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.min.js"></script>
+    <!-- ml5 bundles tensorflow.js, so we don't need to load it separately -->
+    <script src="https://unpkg.com/ml5@0.12.2/dist/ml5.min.js"></script>
+    <script src="auth.js"></script>
+</head>
+
+<body class="dark-theme">
+    <div id="cyber-grid-bg"></div> <!-- Animated Background -->
+
+    <!-- Login Modal -->
+    <div id="login-modal" class="modal-overlay">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h2>IDENTITY VERIFICATION</h2>
+                <div class="glitch-line"></div>
+            </div>
+            <div class="modal-body">
+                <p>Enter your callsign to sync biometrics.</p>
+                <input type="text" id="username-input" placeholder="OPERATOR NAME" maxlength="12">
+                <button id="login-btn">
+                    <span class="btn-text">INITIALIZE LINK</span>
+                    <span class="btn-glitch"></span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation Bar -->
+    <nav id="main-nav">
+        <div class="nav-brand">ECO-SCANNER</div>
+        <div class="nav-links">
+            <button class="nav-btn active" data-target="page-dashboard">DASHBOARD</button>
+            <button class="nav-btn" data-target="page-scanner">SCANNER LENS</button>
+            <button class="nav-btn" data-target="page-profile">PROFILE</button>
+        </div>
+    </nav>
+
+    <div id="app-container" class="blurred">
+
+        <!-- PAGE 1: DASHBOARD (Eco-Stats & Global Impact) -->
+        <section id="page-dashboard" class="page-section">
+            <div class="dashboard-layout">
+                <header>
+                    <div class="logo">
+                        <span class="logo-icon">🌿</span>
+                        <div class="logo-text">
+                            <h1>GLOBAL IMPACT CENTER</h1>
+                            <p>Healthcare Displacement Engine</p>
+                        </div>
+                    </div>
+                </header>
+
+                <div class="stats-row">
+                    <div class="stat-card holographic" id="stat-karma-balloon">
+                        <label>KARMA BALLOON</label>
+                        <div class="balloon-container">
+                            <div id="karma-balloon">🎈</div>
+                        </div>
+                        <div class="value-container">
+                            <span class="value" id="balloon-karma-value">0</span>
+                            <span class="unit">Points</span>
+                        </div>
+                        <p class="stat-sub">Balloon grows with Karma!</p>
+                    </div>
+
+                    <div class="stat-card holographic" id="stat-waste">
+                        <label>WASTE AVOIDED</label>
+                        <div class="value-container">
+                            <span class="value">0</span>
+                            <span class="unit">items</span>
+                        </div>
+                        <p class="stat-sub">Items prevented from landfill</p>
+                    </div>
+                </div>
+
+                <div class="visuals-row">
+                    <div class="smog-tank-container holographic">
+                        <label>CARBON DRAIN</label>
+                        <div id="smog-tank">
+                            <div id="smog-level"></div>
+                            <div id="forest-growth"></div>
+                        </div>
+                    </div>
+
+                    <div class="digital-reef-container holographic">
+                        <label>DIGITAL REEF</label>
+                        <div id="digital-reef">
+                            <!-- Fish will be added here dynamically -->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="global-actions container-center">
+                    <button class="impact-btn" id="refill-btn" title="+82.8g CO2 Saved">
+                        🚰 Refill Bottle
+                    </button>
+                    <button class="impact-btn" id="ngo-btn" title="Send Data to NGO">
+                        🤝 Contact NGO
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- PAGE 2: SCANNER LENS (AI Waste Auditor) -->
+        <section id="page-scanner" class="page-section hidden-section">
+            <div id="scanner-brain">
+                <div id="canvas-container">
+                    <!-- p5.js canvas will go here -->
+                    <div class="scanner-reticle" id="scanner-reticle">
+                        <div class="reticle-corner tl"></div>
+                        <div class="reticle-corner tr"></div>
+                        <div class="reticle-corner bl"></div>
+                        <div class="reticle-corner br"></div>
+                        <div class="reticle-label" id="object-label">ALIGN OBJECT</div>
+                    </div>
+
+                    <div id="ui-overlay">
+                        <div id="karma-display">
+                            <label>KARMA POINTS</label>
+                            <span id="karma-value">0</span>
+                        </div>
+
+                        <div id="purity-alert" class="hidden">
+                            <h3>💧 PURITY BONUS!</h3>
+                            <p>Rinse for +5 Karma!</p>
+                        </div>
+
+                        <div id="classification-result" class="hidden">
+                            <div class="result-icon" id="result-icon">♻️</div>
+                            <div class="result-text" id="result-text">Recyclable Detected</div>
+                            <div class="result-impact" id="result-impact">Energy Saved: Powering a TV for 3 hours!</div>
+                        </div>
+
+                        <div id="model-config">
+                            <input type="text" id="model-url"
+                                placeholder="Paste Teachable Machine Image Model URL here...">
+                            <button id="load-model-btn">Load Waste Brain</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="scanner-status">
+                    <div class="status-item">
+                        <label>ITEMS AUDITED</label>
+                        <span id="items-count">0</span>
+                    </div>
+                    <div class="status-item">
+                        <label>SORTING ACCURACY</label>
+                        <span id="accuracy-percent">0%</span>
+                    </div>
+                    <div class="status-item">
+                        <label>SCANNER STATUS</label>
+                        <span id="scanner-status-text">OFFLINE</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PAGE 3: PROFILE (Identity & Rewards) -->
+        <section id="page-profile" class="page-section hidden-section">
+            <div class="profile-layout">
+                <div class="profile-header">
+                    <div class="user-profile large">
+                        <div class="avatar-ring large">
+                            <!-- Avatar will be an image or emoji -->
+                            <img id="user-avatar-img" src="avatar_ds_tanjiro.png" class="avatar-img hidden"
+                                alt="Avatar">
+                            <span id="user-avatar-large">👤</span>
+                        </div>
+                        <div class="user-info">
+                            <span id="user-name-display">GUEST</span>
+                            <span class="status-indicator">ONLINE</span>
+                        </div>
+                    </div>
+
+                    <div class="stat-card holographic" id="stat-rank">
+                        <label>ECO-RANK</label>
+                        <div class="value">Spine Scout</div>
+                        <div class="rank-badge">LVL 1</div>
+                    </div>
+                </div>
+
+                <!-- Avatar Selector -->
+                <section class="avatar-selector holographic">
+                    <label>SELECT BREATHING STYLE</label>
+                    <div class="avatar-grid">
+                        <button class="avatar-option" data-avatar="avatar_ds_tanjiro.png" title="Water Breathing">
+                            <img src="avatar_ds_tanjiro.png" alt="Tanjiro">
+                        </button>
+                        <button class="avatar-option" data-avatar="avatar_ds_nezuko.png" title="Blood Demon Art">
+                            <img src="avatar_ds_nezuko.png" alt="Nezuko">
+                        </button>
+                        <button class="avatar-option" data-avatar="avatar_ds_zenitsu.png" title="Thunder Breathing">
+                            <img src="avatar_ds_zenitsu.png" alt="Zenitsu">
+                        </button>
+                        <button class="avatar-option" data-avatar="avatar_ds_inosuke.png" title="Beast Breathing">
+                            <img src="avatar_ds_inosuke.png" alt="Inosuke">
+                        </button>
+                    </div>
+                </section>
+
+                <div class="stats-summary">
+                    <h3>CAREER STATISTICS</h3>
+                    <!-- Could duplicate stats here or add history list -->
+                </div>
+
+                <!-- Rewards Section -->
+                <section class="badges-container holographic">
+                    <label>MISSION BADGES</label>
+                    <div id="badge-grid">
+                        <!-- Badges injected by JS -->
+                    </div>
+                </section>
+            </div>
+        </section>
+
+    </div>
+
+    <script src="sketch.js"></script>
+</body>
+
+</html>
